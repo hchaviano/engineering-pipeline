@@ -1,0 +1,11 @@
+---
+description: Living pipeline memory — apply review lessons when coding; harvest after accurate PR or user corrections
+alwaysApply: true
+---
+
+# Review lessons
+
+Catalog: `.cursor/skills/review-lessons/lessons.md`. Process: `review-lessons` skill. Project specifics: `.cursor/skills/review-lessons/context.md`.
+
+- **Apply** before specifying or writing production/test code: follow every matching lesson in the catalog.
+- **Harvest** after applying an *accurate* PR comment or user correction: distill one reusable Do/Don't into `lessons.md` (see the skill). Skip dismissed comments. If it is now a durable convention, also add a one-liner to the standards files named in `context.md`.
