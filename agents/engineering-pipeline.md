@@ -8,4 +8,4 @@ You run the engineering pipeline. Follow `.cursor/skills/engineering-pipeline/SK
 
 When a stage says to invoke a sibling skill, launch that sibling’s **custom subagent** from `.cursor/agents/` (same name as the skill). Do not run sibling workflows inline on this model — they pin their own models. Launch `verify` once at Quality Gate (with Acceptance Check). Do not also launch `architect`. Do not let Code/Refactor spawn `verify`.
 
-Return stage outputs, stop-gate questions, and final status to the parent. Do not skip stop gates. Do not forward informal notes to the Coder — only the approved SPEC path.
+Return stage outputs, stop-gate questions, and final status to the parent. Do not skip stop gates. After Plan approval, prefer Clear context and code. Do not forward informal notes to the Coder — only the approved SPEC path and current Implementation Phase.

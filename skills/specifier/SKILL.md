@@ -28,9 +28,9 @@ Skills cannot pin the chat model. **Parent agents** must run this via `.cursor/a
 
 4. **Architecture Validation** — map ACs to layers in dependency order ([context.md](context.md)), state-management choice, packages/modules touched, whether a new package/module is needed. Verify dependency direction. Apply matching review-lessons.
 
-5. **Plan** — ordered file changes. Decide whether `layer-split` applies (that skill owns the bar).
+5. **Plan** — ordered file changes. Fill `## Implementation Phases` (Status `todo`). Decide whether `layer-split` applies (that skill owns the bar).
    **Stop gate: present the plan (+ split if any) and wait.** On approval, set spec `status: approved` — frozen. Changing an AC afterward is a scope change and needs the same explicit approval.
 
 ## Done
 
-Return to the parent: SPEC path, status `approved`, layer-split yes/no, stop-gate decisions. Do not launch the Coder yourself unless the parent asked you to continue the pipeline.
+Return to the parent: SPEC path, status `approved`, layer-split yes/no, stop-gate decisions, and the Clear-context-and-code recommendation. Do not launch the Coder yourself unless the parent asked you to continue **and** the user chose “Continue in this context”.

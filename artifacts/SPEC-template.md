@@ -39,3 +39,12 @@ created: <date>
 
 ## Out of scope
 <!-- explicit; keeps the coder from filling gaps from informal context it never received -->
+
+## Implementation Phases
+<!-- One phase per context window. Resume after a new chat at the first phase whose Status is not `done`. -->
+
+### Phase 1 — <name>
+- **Status:** todo
+- **Scope:** <one sentence>
+- **Files:** <paths>
+- **ACs:** AC-1

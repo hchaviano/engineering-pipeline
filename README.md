@@ -56,7 +56,7 @@ Informal request → hard spec. The specifier never writes production code.
 2. **Challenge** — already exists? architecture break? simpler / right scope? **Stop gate:** if objections, present them and wait. Record objection → decision in `## Decisions`.
 3. **Specification** — copy `artifacts/SPEC-template.md` → `artifacts/SPEC-{task}.md` (`status: draft`). Numbered Given/When/Then ACs (`AC-1`, …). Explicit `Out of scope`.
 4. **Architecture Validation** — map ACs to layers, dependency direction, packages touched.
-5. **Plan** — ordered file changes; whether `layer-split` applies. **Stop gate:** present the plan and wait. On approval, `status: approved` — **frozen**. Changing an AC later is a scope change and needs the same approval.
+5. **Plan** — ordered file changes; fill `## Implementation Phases` (Status `todo`); whether `layer-split` applies. **Stop gate:** present the plan and wait. On approval, `status: approved` — **frozen**. Then **Clear context and code (Recommended)** before Code. Changing an AC later is a scope change and needs the same approval.
 
 Skip this stage for trivial changes and for bugs already handled by `debugging`.
 
@@ -68,7 +68,7 @@ Small features stay a single branch. Never force the split.
 
 ### 3. Code — `feature-implementation`
 
-The Coder sees **only**: path to the approved SPEC, the plan file list, and the layer in progress.
+The Coder sees **only**: path to the approved SPEC, the **current Implementation Phase**, and the layer in progress. When the phase is green, set **Status:** `done`. If more phases remain, Clear-context handoff before the next.
 
 Do **not** forward the informal request, ticket chatter, or Challenge debate. If the SPEC is silent or contradictory, the Coder asks — it does not guess. Never edit an approved AC to match what got built.
 

@@ -32,14 +32,17 @@ Stop gates, SPEC isolation, expensive specifier/coder/review, and blocking Accep
 - **One mechanical `verify`:** Quality Gate includes Acceptance Check (matrix, coverage, mutation). Do **not** also launch `architect`. Do not let Code, Refactor, layer-split, or open-pr spawn `verify`.
 - **Standalone `/architect`** still exists for Accept-only reruns; the default pipeline does not stack it on top of verify.
 - **Session:** one ticket per chat. After Ship, start a new conversation before the next ticket.
+- **Clear context and code:** after Specify’s Plan approval, prefer a fresh chat for Code. Resume from the SPEC path + first `## Implementation Phases` entry that is not `done`.
 
 ## Stages
 
-1. **Specify** — launch `specifier`. Human-heavy. Stop gates (Challenge, Plan) return to the user. Output: `SPEC-{task}.md` with `status: approved` (frozen). Skip for trivial changes and for bugs already handled by `debugging`.
+1. **Specify** — launch `specifier`. Human-heavy. Stop gates (Challenge, Plan) return to the user. Output: `SPEC-{task}.md` with `status: approved` (frozen) and `## Implementation Phases`. Skip for trivial changes and for bugs already handled by `debugging`.
+
+   **Handoff (Recommended: Clear context and code):** after approval, offer a new chat whose prompt is only the SPEC path + `approved` + current phase. **Resume:** if the prompt is already an approved SPEC, skip Specify; start at the first phase that is not `done`.
 
 2. **Layer Split (if applicable)** — if the approved plan included a split, launch `layer-split` **before any code**. Later stages run per layer, on that layer’s branch.
 
-3. **Code** — launch `feature-implementation` (the Coder). Prompt = approved SPEC path + plan file list + layer in progress. The Coder also reads review-lessons. **Do not forward the informal request, ticket chatter, or Challenge debate.** The Coder must not fill gaps from context it was never given. If the SPEC is ambiguous, it asks — it does not guess. The Coder must **not** launch `verify`.
+3. **Code** — launch `feature-implementation` (the Coder). Prompt = approved SPEC path + **current phase** + layer in progress. The Coder also reads review-lessons. **Do not forward the informal request, ticket chatter, or Challenge debate.** When the phase is green, set that phase’s **Status:** `done`. If more phases remain, Clear-context handoff (Recommended) before the next. The Coder must **not** launch `verify`.
 
 4. **Refactor (conditional)** — launch `refactorer` when the diff trips the complexity bar in that skill’s context, or the Coder flags it. Otherwise skip. Stays on the current layer branch. Prompt = diff range only (no informal specs). The Refactorer must **not** launch `verify` — Quality Gate is the one mechanical pass.
 

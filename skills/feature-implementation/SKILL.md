@@ -13,7 +13,7 @@ Constraints while coding against an already-approved SPEC. Not a pipeline — se
 
 Skills cannot pin the chat model. **Parent agents** must run this via `.cursor/agents/feature-implementation.md`. If you **are** already that agent, implement per the rules below — do not re-launch yourself.
 
-Parent prompt **must** contain only: path to approved `SPEC-{task}.md`, plan file list, layer in progress. If informal notes or Challenge debate arrived in the prompt, ignore them — if an AC is missing, stop and ask.
+Parent prompt **must** contain only: path to approved `SPEC-{task}.md`, **current Implementation Phase**, layer in progress. If informal notes or Challenge debate arrived in the prompt, ignore them — if an AC is missing, stop and ask.
 
 ## Isolation rule
 
@@ -26,7 +26,7 @@ You never saw the informal request. If the SPEC is silent, **ask** — do not in
 3. **Implementation** — minimum code to make them pass. Layer order is in [context.md](context.md). Each layer compiles and is tested before the next.
 4. Fill spec `## Traceability` (`AC-id → test file::group`) as tests land.
 
-Hand off only when the new tests are green. Do **not** launch `verify` — the parent’s Quality Gate is the one mechanical pass.
+Hand off only when the new tests are green. Set the current phase’s **Status:** `done`. Do **not** launch `verify` — the parent’s Quality Gate is the one mechanical pass. Do not pull the next phase forward.
 
 Also apply the review-lessons catalog (conventions, not product scope).
 
