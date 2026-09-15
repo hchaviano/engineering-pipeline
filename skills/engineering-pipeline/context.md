@@ -39,7 +39,7 @@ Copy these into `.cursor/agents/*.md` (`model:` frontmatter). Adjust per team.
 | `specifier` | `<e.g. claude-opus-5[effort=high]>` |
 | `feature-implementation` | `<e.g. claude-opus-5[effort=high]>` |
 | `refactorer` | `<e.g. composer-2.5[fast=false]>` |
-| `architect` | `<e.g. composer-2.5-fast>` |
+| `architect` | `<e.g. composer-2.5-fast>` (standalone Accept; not launched in the default pipeline) |
 | `self-review` | `<e.g. claude-opus-5[effort=high]>` (agent `readonly: true`) |
 | `debugging` | `<e.g. claude-opus-5[effort=high]>` |
 | `layer-split` / `verify` / `open-pr` | `<e.g. composer-2.5-fast>` |
@@ -51,4 +51,4 @@ Copy these into `.cursor/agents/*.md` (`model:` frontmatter). Adjust per team.
 |-----------|------|
 | Gherkin / `.feature` files | `<e.g. numbered Given/When/Then ACs in the SPEC>` |
 | Mutation testing (Stryker / etc.) | `<e.g. flip AC boundary in the mapped test, run it, revert>` |
-| Coverage gate | `<command e.g. make coverage>` |
+| Coverage gate | `<command e.g. make coverage>` — collect in the same `verify` test run when Acceptance Check is on |

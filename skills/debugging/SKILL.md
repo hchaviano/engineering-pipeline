@@ -32,4 +32,4 @@ When `/debugging` is invoked or a bug is reported (parent only):
 
 5. **Fix + regression test** — test that fails without the fix and passes with it.
 
-6. **Verify** — launch `verify`, then re-check any critical flows the fix could touch.
+6. **Verify** — launch `verify` **once** (including Acceptance Check if a SPEC exists). Do not run the gate inline. Re-check neighboring critical flows from the verify summary.

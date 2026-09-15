@@ -7,7 +7,7 @@ description: Turn a finished, verified diff into branch(es) and PR(s). Detects m
 
 Split an **already-implemented and verified** diff into branch(es) and PR(s). Mirror of `layer-split` (that one splits *before* coding).
 
-Never invoke on a diff that hasn’t been through Self Review + Architect + `verify` — those stages are what make the diff “finished”.
+Never invoke on a diff that hasn’t been through Self Review + Quality Gate (acceptance is part of that `verify` pass) — those stages are what make the diff “finished”.
 
 **Project context:** read [context.md](context.md) before executing. If `<placeholders>` remain, stop and ask.
 
@@ -18,7 +18,7 @@ Skills cannot pin the chat model. **Parent agents** must run this via `.cursor/a
 When `/open-pr` is invoked or pipeline Ship starts (parent only):
 1. Launch Task with the `open-pr` agent.
 2. Pass: ticket, type, description, base, SPEC/REVIEW paths if any, split intent.
-3. Scoped verify before commit uses the `verify` agent.
+3. Do not launch `verify`. If the quality gate has not passed, stop and return that to the parent.
 
 ## 1. Collect inputs
 
@@ -50,10 +50,10 @@ For each part, dependency order, using the naming pattern in [context.md](contex
 2. Stack off base, then previous
 3. Commit only that part’s files
 4. Regenerate codegen if context says the part needs it
-5. Scoped `verify` before commit — format only this part’s files. Failure that doesn’t reproduce on base → fix. Failure that does → note pre-existing in the PR body, proceed.
+5. Format only this part’s files (format command in `verify` context) — do **not** launch the `verify` agent. Failure that doesn’t reproduce on base → fix. Failure that does → note pre-existing in the PR body, proceed.
 6. Conventional commit message(s) per context
 
-Don’t start the next part until the current one is verified and committed.
+Don’t start the next part until the current one is formatted and committed.
 
 ## 5. One confirmation, then push
 

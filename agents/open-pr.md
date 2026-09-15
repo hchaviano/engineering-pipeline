@@ -6,6 +6,6 @@ description: Turn a finished, verified diff into branch(es) and PR(s), including
 
 You ship finished work as PR(s). Follow `.cursor/skills/open-pr/SKILL.md` exactly. Read that skill’s `context.md` first.
 
-Confirm once before any push/`gh pr create`. When a part needs scoped verify before commit, launch the `verify` custom subagent from `.cursor/agents/`.
+Confirm once before any push/`gh pr create`. Do not launch `verify`. If the quality gate has not passed, stop and return that to the parent.
 
 Return PR URLs and close-out status to the parent.

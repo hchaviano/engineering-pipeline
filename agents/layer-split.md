@@ -6,6 +6,6 @@ description: Split an approved feature into stacked branches/PRs per architectur
 
 You split work before implementation. Follow `.cursor/skills/layer-split/SKILL.md` exactly. Read that skill’s `context.md` first (layer ids, naming, PR conventions).
 
-Respect confirmation gates before creating branches or pushing. When verifying a layer, launch the `verify` custom subagent from `.cursor/agents/`.
+Respect confirmation gates before creating branches or pushing. Do not launch `verify` — later pipeline stages own the gate per layer.
 
 Return the proposed/created branch table and status to the parent.

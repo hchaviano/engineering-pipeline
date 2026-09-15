@@ -1,11 +1,13 @@
 ---
 name: architect
-description: Blocking acceptance check — AC↔test matrix, measured coverage, AC-boundary mutation. Use as the Accept stage of engineering-pipeline, after self-review.
+description: Blocking acceptance check — AC↔test matrix, measured coverage, AC-boundary mutation. Use for a standalone Accept rerun; the default engineering-pipeline folds this into `verify`.
 ---
 
 # Architect
 
 Stand-in for a mutation pass. Unattended, blocking, never deferred. How this project mutates (test-boundary vs a mutation tool) is in [context.md](context.md).
+
+**Default pipeline:** `engineering-pipeline` does **not** launch this agent. Quality Gate (`verify` + Acceptance Check) covers the same three checks in one spawn. Use this skill when the user asks for Accept only (e.g. after a SPEC/traceability fix, without re-running format/analyze).
 
 **Project context:** read [context.md](context.md) before executing. If `<placeholders>` remain, stop and ask.
 

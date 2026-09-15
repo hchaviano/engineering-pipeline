@@ -18,7 +18,7 @@ Skills cannot pin the chat model. **Parent agents** must run this via `.cursor/a
 When `/layer-split` is invoked or the pipeline requests a split (parent only):
 1. Launch Task with the `layer-split` agent.
 2. Pass: task number, type, description, base branch, layer map if known.
-3. Layer verify steps use the `verify` agent.
+3. Layer implementation and verify happen in later pipeline stages — do not launch `verify` from this agent.
 
 ## When to split
 
@@ -35,7 +35,7 @@ Possible layers, in order, used only as applicable: the identifiers in [context.
 
 ## Branch naming / stacking / PRs / gates / commits
 
-Follow the patterns in [context.md](context.md). Show the full table (branches, bases, per-layer content) and **wait** before creating branches. Explicit confirmation before `git push` / `gh pr create`. Before each layer commit: launch `verify`; that layer’s new/modified testable logic has its test in the same PR.
+Follow the patterns in [context.md](context.md). Show the full table (branches, bases, per-layer content) and **wait** before creating branches. Explicit confirmation before `git push` / `gh pr create`. Do **not** launch `verify` here. Each layer’s Code → Quality Gate in `engineering-pipeline` is the mechanical pass; that layer’s new/modified testable logic has its test in the same PR.
 
 ## Backward propagation
 

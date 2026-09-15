@@ -1,8 +1,8 @@
 # Engineering Pipeline
 
-Informal request → frozen SPEC → tests-first code → optional refactor → isolated review → acceptance → quality gate → PR.
+Informal request → frozen SPEC → tests-first code → optional refactor → isolated review → quality gate (verify + accept) → PR.
 
-Human attention is front-loaded (Challenge + Plan). The Coder, Refactorer, and Architect never see the informal notes — only the approved SPEC and the diff. Adapted from Uncle Bob’s [agent transformation pipeline](https://medium.com/@adrianbailador/uncle-bobs-agent-pipeline-from-informal-specs-to-mutation-tested-net-code-ac2baa45cfd5); stack-specific stand-ins live in each skill’s `context.md`, not in the process.
+Human attention is front-loaded (Challenge + Plan). The Coder and Refactorer never see the informal notes — only the approved SPEC and the diff. Accept (AC matrix, coverage, mutation) runs **inside** the one `verify` spawn, not as a second agent. Adapted from Uncle Bob’s [agent transformation pipeline](https://medium.com/@adrianbailador/uncle-bobs-agent-pipeline-from-informal-specs-to-mutation-tested-net-code-ac2baa45cfd5); stack-specific stand-ins live in each skill’s `context.md`, not in the process.
 
 ```text
  ticket / chat
@@ -24,13 +24,9 @@ Human attention is front-loaded (Challenge + Plan). The Coder, Refactorer, and A
  │ Self Review │ ───────────────────────────────► │ REVIEW artifact
  └─────────────┘                                  └──────┬───────┘
                                                          ▼
- ┌─────────────┐  AC↔test + coverage + mutation   ┌──────────────┐
- │   Accept    │ ───────────────────────────────► │ architect OK │
+ ┌─────────────┐  format/analyze/test +           ┌──────────────┐
+ │   Verify    │  AC matrix/coverage/mutation ──► │ spec verified│
  └─────────────┘                                  └──────┬───────┘
-                                                         ▼
- ┌─────────────┐                                      ┌──────────────┐
- │   Verify    │ ───────────────────────────────────► │ spec verified│
- └─────────────┘                                      └──────┬───────┘
                                                              ▼
                                                         Ship (PR)
 ```
@@ -44,7 +40,7 @@ Human attention is front-loaded (Challenge + Plan). The Coder, Refactorer, and A
 | Format / analyze / test only | `/verify` |
 | Finished, verified diff → PR | `/open-pr` |
 
-Parents launch the matching agent in `agents/` (skills cannot pin models). Do not run sibling stages inline on the orchestrator.
+Parents launch the matching agent in `agents/` (skills cannot pin models). Do not run sibling stages inline on the orchestrator. **One `verify` per ticket** in the default pipeline (includes Accept). Do not also launch `architect`. Coder / Refactorer / layer-split / open-pr must not spawn `verify`.
 
 **Triviality:** collapse Specify into one sentence only when the bars in `skills/engineering-pipeline/context.md` all hold (file count, no critical flow / sensitive data, no new testable logic). State why in one line; otherwise run the full pipeline.
 
@@ -92,25 +88,21 @@ Prompt is the diff range + SPEC path if any. Output: `artifacts/REVIEW-{task}.md
 
 Any new/modified testable unit without a test is 🔴 Important and forces `"fix N items first"`. Fixes are a separate, explicit step.
 
-### 6. Accept — `architect`
+### 6. Quality gate — `verify` (includes Accept)
 
-Blocking; never deferred.
+Pinned toolchain, touched paths only. Format → analyze → test, in that order, **plus** Acceptance Check in the **same** spawn. Failures get fixed and re-run; the change is not done while a required gate is red. Never deferred.
 
 - **Matrix** — every AC has ≥1 test that *asserts* the Then.
-- **Coverage** — measured on new/modified testable logic; below the bar blocks.
-- **AC mutation** — on critical-flow boundaries, flip the condition in the mapped test (or run the mutation tool named in context). If the mutant still passes, the test is fake. **Always revert.** Never commit a mutant.
-
-Do not mark the spec `verified` here.
-
-### 7. Quality gate — `verify`
-
-Pinned toolchain, touched paths only. Format → analyze → test, in that order. Failures get fixed and re-run; the change is not done while a required gate is red.
+- **Coverage** — measured on new/modified testable logic in this same test run; below the bar blocks.
+- **AC mutation** — on critical-flow boundaries, flip the condition in the mapped test (or run the mutation tool named in `architect` context). If the mutant still passes, the test is fake. **Always revert.** Never commit a mutant.
 
 On pass: spec `status: verified`. Prepare ACs + traceability + coverage % + self-review verdict for the PR body. Fold architectural `## Decisions` into ADRs if context names a location.
 
-### 8. Ship — `open-pr`
+Do **not** also launch `architect`. Standalone `/architect` remains for Accept-only reruns.
 
-Confirm once, then push and open PR(s). If stage 2 already stacked branches, push that stack — don’t re-split.
+### 7. Ship — `open-pr`
+
+Confirm once, then push and open PR(s). If stage 2 already stacked branches, push that stack — don’t re-split. Do not launch `verify` from Ship.
 
 After every PR exists: delete `SPEC-{task}.md` and `REVIEW-{task}.md`.
 
@@ -122,13 +114,13 @@ After every PR exists: delete `SPEC-{task}.md` and `REVIEW-{task}.md`.
 | Coder | approved SPEC + plan files + layer | informal request, Challenge debate |
 | Refactorer | diff / files (SPEC only to avoid behavior change) | ticket text |
 | Self-review | diff + SPEC artifact + `REVIEW.md` | parent conversation, plan rationale |
-| Architect | SPEC + diff + coverage/mutation commands | informal notes |
+| Architect / Accept | SPEC + diff + coverage/mutation commands (via `verify` Acceptance Check, or standalone `architect`) | informal notes |
 
 ## Bugs
 
 `/debugging` first: reproduce → isolate through the layers → validated hypothesis → propose. **Stop gate:** if the user only reported the bug, deliver diagnosis and wait.
 
-Apply the fix only when asked. A regression test must fail without the fix and pass with it, then `/verify`. If the fix spans 2+ layers or changes specified behavior, hand off to `/engineering-pipeline` at Specify — do not drive-by patch.
+Apply the fix only when asked. A regression test must fail without the fix and pass with it, then one `/verify`. If the fix spans 2+ layers or changes specified behavior, hand off to `/engineering-pipeline` at Specify — do not drive-by patch.
 
 ## Standing (any stage)
 
@@ -147,7 +139,7 @@ The article is a .NET pipeline (Gherkin + Reqnroll + Stryker). Same stages and i
 | Specifier → Gherkin | Numbered Given/When/Then ACs | `.feature` files if you use them |
 | Coder (no informal notes) | `feature-implementation`, SPEC-only | test-first order, layer order, coverage bar |
 | Refactorer (no requirements) | `refactorer` | size/nesting triggers |
-| Architect → mutation | `architect` — matrix + coverage + AC-boundary mutation | coverage command; test-boundary vs Stryker/etc. |
+| Architect → mutation | `verify` Acceptance Check (same spawn as the quality gate); standalone `architect` if you only need Accept | coverage command; test-boundary vs Stryker/etc. |
 
 ## Repo layout
 

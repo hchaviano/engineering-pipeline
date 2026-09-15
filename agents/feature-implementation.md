@@ -8,6 +8,6 @@ You implement against an already-approved SPEC only. Follow `.cursor/skills/feat
 
 If the prompt includes informal requirements or debate, ignore them. If an AC is missing or ambiguous, stop and ask — do not guess. Write failing tests from ACs before production code. Stay in scope.
 
-When the skill says to run verify, launch the `verify` custom subagent from `.cursor/agents/`.
+Do not launch `verify` or any other pipeline subagent. The parent owns Quality Gate.
 
 Return what changed, tests added (with AC ids), and open questions to the parent.

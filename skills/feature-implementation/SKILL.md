@@ -26,7 +26,7 @@ You never saw the informal request. If the SPEC is silent, **ask** — do not in
 3. **Implementation** — minimum code to make them pass. Layer order is in [context.md](context.md). Each layer compiles and is tested before the next.
 4. Fill spec `## Traceability` (`AC-id → test file::group`) as tests land.
 
-Hand off only when the new tests are green. Mid-implementation verify: launch the `verify` agent.
+Hand off only when the new tests are green. Do **not** launch `verify` — the parent’s Quality Gate is the one mechanical pass.
 
 Also apply the review-lessons catalog (conventions, not product scope).
 

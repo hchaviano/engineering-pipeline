@@ -27,10 +27,10 @@ Stay on the current layer branch — never refactor across a `layer-split` stack
 2. Remove structural duplication (not coincidental similarity).
 3. Do not add speculative abstractions or new product behavior.
 4. Do not weaken tests to make a refactor easier.
-5. Launch `verify` after edits. If tests fail, fix the refactor — not the tests — unless a test was coupled to structure (then rewrite it to assert the same behavior).
+5. Keep tests green with scoped tests from [context.md](context.md). Do **not** launch the `verify` agent — the parent’s Quality Gate is the one mechanical pass. If tests fail, fix the refactor — not the tests — unless a test was coupled to structure (then rewrite it to assert the same behavior).
 
 Property-based tests: only if [context.md](context.md) names a package already in the repo. Do not add a new test framework here.
 
 ## Done
 
-Return what changed and confirm verify is green. Do not start self-review yourself unless the parent asked.
+Return what changed. Do not launch `verify` or self-review — the parent owns those stages.

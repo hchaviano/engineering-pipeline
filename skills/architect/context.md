@@ -1,6 +1,6 @@
 <!--
 Fill when adopting. Leave no <placeholders>.
-The architect reads this file. Coverage command and mutation method belong here — not in SKILL.md.
+**Default pipeline:** `engineering-pipeline` does not launch this agent. Fill this file anyway — `verify` Acceptance Check uses the same coverage command and mutation method.
 -->
 # Architect — project context
 

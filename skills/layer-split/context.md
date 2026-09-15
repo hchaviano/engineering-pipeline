@@ -39,4 +39,4 @@ Example: `<e.g. feature/62310-qr-limits-data → …-repository → …-bloc →
 
 1. Show the full table → wait before creating branches
 2. Confirm before push / `gh pr create`
-3. Before each layer commit: `verify`; 100% of that layer’s new/modified testable logic is tested in the same PR
+3. Before each layer commit: do not run `verify` here — that layer’s pipeline Quality Gate owns it; 100% of that layer’s new/modified testable logic is tested in the same PR
